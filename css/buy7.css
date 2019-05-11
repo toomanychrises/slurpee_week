@@ -1,0 +1,317 @@
+@import url(main.css);
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+h3,
+p,
+a,
+.btn,
+img,
+ul {
+  display: block;
+  margin-top: 0 !important;
+  margin-bottom: 15px !important;
+}
+
+h1,
+h2,
+h3 {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 600;
+  color: #008062;
+  margin-bottom: 10px;
+  font-family: 'Teko', sans-serif;
+}
+
+h1 {
+  transform: skewY(-5deg);
+  color: #fff;
+  font-size: 3.25em;
+  font-weight: 900;
+  line-height: .75em;
+  letter-spacing: 2px;
+  position: relative;
+  /* for child pseudo-element */
+  z-index: 0;
+  margin: 15px -600rem 30px;
+  /* add back negative margin value */
+  padding: 25px 600rem 15px;
+}
+
+h1:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  /* behind parent */
+  top: 0;
+  bottom: 0;
+  /* subtract h2 padding (1.5rem) */
+  left: 598.5rem;
+  right: 598.5rem;
+  background-color: #83b848;
+}
+
+h1 span {
+  display: block;
+  color: #008062;
+  letter-spacing: 1px;
+}
+
+h2 {
+  font-size: 35px;
+  line-height: 35px;
+}
+
+h3 {
+  margin-top: 5px;
+  margin-bottom: 10px !important;
+  font-size: 28px;
+  line-height: 28px;
+}
+
+p {
+  text-align: center;
+  color: #008062;
+  font-size: 13px;
+  line-height: 16.25px;
+}
+
+p#se-buy7-error {
+  color: #ed2525;
+  font-weight: bold;
+}
+
+sup {
+  line-height: .9em;
+}
+
+a {
+  text-decoration: none;
+}
+
+a.btn {
+  background-color: #f37721;
+  color: #fff;
+  font-family: 'Teko', sans-serif;
+  font-size: 1.5em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin: 15px auto 30px;
+  display: block;
+}
+
+a.btn:hover {
+  background-color: #f37721;
+  color: #fff;
+}
+
+a.btn:focus {
+  background-color: #f37721;
+  color: #fff;
+}
+
+.btn {
+  background-color: #f37721;
+  color: #fff;
+  font-family: 'Teko', sans-serif;
+  font-size: 1.5em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin: 15px auto 15px;
+  display: block;
+}
+
+.btn:hover {
+  background-color: #f37721;
+  color: #fff;
+}
+
+.btn:focus {
+  background-color: #f37721;
+  color: #fff;
+}
+
+.container {
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.se-buy7-phone {
+  max-width: 40%;
+  margin: 10px auto;
+  display: block;
+}
+
+.se-buy7-congrats {
+  max-width: 80%;
+  margin: 10px auto;
+  background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  background-image: url(../images/congrats.png);
+}
+
+.se-buy7-congrats:after {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 75%;
+}
+
+.se-buy7-congrats>.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#spinner {
+  margin: 0 auto;
+  max-width: 72px;
+  margin-top: 10vh !important
+}
+
+#se-buy7-banner {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: relative;
+  background-image: url(../images/bg-banner.png);
+}
+
+#se-buy7-banner:after {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+#se-buy7-banner>.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Progress Sprite */
+#se-buy7-progress {
+  display: block;
+  padding: 0;
+  margin: 30px 0 !important;
+}
+
+#se-buy7-progress li {
+  text-indent: -9999px;
+  background-size: 615% 300%;
+  background-image: url(../images/spritesheet2.png);
+  background-repeat: no-repeat;
+  text-align: center;
+  display: inline-block;
+  width: 36px;
+  height: 76px;
+  padding-top: 30px;
+  box-sizing: border-box;
+  font-family: 'Teko', sans-serif;
+  font-weight: bold;
+  font-size: 1.75em;
+  color: #fff;
+}
+
+#se-buy7-progress li:nth-of-type(1) {
+  background-position: 0 0;
+}
+
+#se-buy7-progress li:nth-of-type(1).sprite-slurpee-on {
+  background-position: -74px -76px;
+}
+
+#se-buy7-progress li:nth-of-type(2) {
+  background-position: -37px 0;
+}
+
+#se-buy7-progress li:nth-of-type(2).sprite-slurpee-on {
+  background-position: -111px -76px;
+}
+
+#se-buy7-progress li:nth-of-type(3) {
+  background-position: -74px 0;
+}
+
+#se-buy7-progress li:nth-of-type(3).sprite-slurpee-on {
+  background-position: -148px -76px;
+}
+
+#se-buy7-progress li:nth-of-type(4) {
+  background-position: -111px 0;
+}
+
+#se-buy7-progress li:nth-of-type(4).sprite-slurpee-on {
+  background-position: -185px 0;
+}
+
+#se-buy7-progress li:nth-of-type(5) {
+  background-position: -148px 0;
+}
+
+#se-buy7-progress li:nth-of-type(5).sprite-slurpee-on {
+  background-position: -185px -76px;
+}
+
+#se-buy7-progress li:nth-of-type(6) {
+  background-position: 0 -76px;
+}
+
+#se-buy7-progress li:nth-of-type(6).sprite-slurpee-on {
+  background-position: 0 -152px;
+}
+
+#se-buy7-progress li:nth-of-type(7) {
+  background-position: -37px -76px;
+}
+
+#progress,
+#redeem,
+#welcome-ios,
+#welcome-android {
+  display: none;
+}
+
+#altMessage {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 600;
+  color: #83B848;
+  font-size: 2em;
+  line-height: 0.85em;
+  margin-bottom: 10px;
+  font-family: 'Teko', sans-serif;
+}
+
+.demo-size {
+  width: 320px;
+  height: 568px;
+  margin: 0 auto;
+  border: 1px solid #83b848;
+  border-radius: 8px;
+}
+@media screen and (min-width: 768px) {
+
+  .demo-size {
+    margin-top: 30px;
+  }
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# ">
+<head>
+  <meta charset="utf-8" />
+  <meta name="title" content="Find a Store | 7-Eleven" />
+  <meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+  <meta name="MobileOptimized" content="width" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy 7 Get 11 | 7-Eleven</title>
+  <link rel="stylesheet" href="css/buy7.css" media="all" />
+  <link href="https://fonts.googleapis.com/css?family=Teko:500,600,700" rel="stylesheet">
+</head>
+
+<body>
+  <div class="demo-size">
+    <div id="se-buy7-banner"></div>
+    <img id="spinner" src="images/spinner.gif">
+    <div class="container" id="welcome-ios">
+      <h3>HOW DOES IT WORK?</h3>
+      <p>Snag and scan 7 Slurpee<sup>&reg;</sup> Drinks between 7/12 and 7/18 and get 11 Slurpee<sup>&reg;</sup> Drinks in any size for free. Buy them one at a time or all at once, and we’ll even help you keep track on the 7-Eleven app. Once you hit 7, you can grab your next 11 frozen freebies at any time from 7/12-8/31!</p>
+      <button id="startSlurpee" class="btn">Start</button>
+      <p>Please allow for 24 hours to see updates to your Slurpee Week punch card.</p>
+    </div>
+    <div class="container" id="progress">
+      <h3>TRACK YOUR PROGRESS</h3>
+      <p>Snag and scan 7 Slurpee<sup>&reg;</sup> Drinks between 7/12 and 7/18 and get 11 Slurpee<sup>&reg;</sup> Drinks in any size for free. Buy them one at a time or all at once, and we’ll even help you keep track on the 7-Eleven app. Once you hit 7, you can grab your next 11 frozen freebies at any time from 7/12-8/31!</p>
+      <ul id="se-buy7-progress">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+      </ul>
+      <button id="addSlurpee" class="btn">Purchase Slurpee</button>
+    </div>
+    <div class="container" id="redeem">
+      <h2>CONGRATULATIONS</h2>
+      <p>You’ve got 11 Slurpee<sup>&reg;</sup> Drinks in any size! Press redeem and scan the 7Rewards barcode to get your frozen freebies between 7/12-8/31.</p>
+      <div class="se-buy7-congrats"></div>
+      <button id="redeemSlurpee" class="btn">Redeem</button>
+    </div>
+  </div>
+  <script type="text/javascript">
+  sessionStorage.slurpeeAmount = 0;
+  var link, //removed for privacy/demo, needed to contact API
+      loyaltyID, //removed for privacy/demo, needed to contact API
+      banner = document.getElementById('se-buy7-banner'),
+      spinner = document.getElementById('spinner'),
+      welcome = document.getElementById('welcome-ios'),
+      progress = document.getElementById('progress'),
+      redeem = document.getElementById('redeem'),
+      redeemButton = document.getElementById('redeemSlurpee'),
+      startButton = document.getElementById('startSlurpee'),
+      addButton = document.getElementById('addSlurpee'),
+        isMobile = {
+          /**
+           * @return {boolean}
+           */
+          Android: function() {
+            return /Android/i.test(navigator.userAgent);
+          },
+          /**
+           * @return {boolean}
+           */
+          BlackBerry: function() {
+            return /BlackBerry/i.test(navigator.userAgent);
+          },
+          iOS: function() {
+            return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+          },
+          /**
+           * @return {boolean}
+           */
+          Windows: function() {
+            return /IEMobile/i.test(navigator.userAgent);
+          },
+          any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+          }
+        };
+
+  function fadeOut(element, callback) {
+    var opacity = 1;
+    var timer = setInterval(function() {
+      if (opacity <= 0.1) {
+        clearInterval(timer);
+        element.style.display = 'none';
+        if (typeof callback !== 'undefined') {
+          callback();
+        };
+      }
+      element.style.opacity = opacity;
+      opacity -= 0.1;
+    }, 50);
+  }
+
+  function fadeIn(element) {
+    var opacity = 0.1;
+    var timer = setInterval(function() {
+      if (opacity >= 1) {
+        clearInterval(timer);
+      }
+      element.style.display = 'block';
+      element.style.opacity = opacity;
+      opacity += 0.1;
+    }, 50);
+  }
+
+  function checkProgress() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var response = JSON.parse(this.responseText);
+        sessionStorage.slurpeeAmount = response.slurpee_amount;
+        // sessionStorage.slurpeeAmount = 3; 
+        var mp_data = {
+          "Promotion ID": "Buy 7, Get 11",
+          "Promotion Period": "P3"
+        };
+        if (sessionStorage.slurpeeAmount >= 7) {
+          fadeOut(banner);
+          fadeOutAndCallback(spinner,
+            function() {
+              fadeIn(redeem);
+              mixpanel.track("Promotion Detail", mp_data);
+            }
+          );
+          mp_data["Promotion Screen"] = '11 Free Slurpees Unlocked';
+          mp_data["Promotion CTA"] = 'Redeem';
+        } else if (sessionStorage.slurpeeAmount > 0 && sessionStorage.slurpeeAmount < 7) {
+          fadeOutAndCallback(spinner,
+            function() {
+              fadeIn(progress);
+              mixpanel.track("Promotion Detail", mp_data);
+            }
+          );
+          var ul = document.getElementById('se-buy7-progress');
+          for (count = 0; count < sessionStorage.slurpeeAmount; count++) {
+            ul.children[count].className += 'sprite-slurpee-on';
+          }
+          mp_data["Promotion Screen"] = 'Track Your Progress'
+        } else {
+          fadeOutAndCallback(spinner,
+            function() {
+              if (isMobile.iOS()) {
+                fadeIn(welcomeiOS);
+                mp_data["Promotion CTA"] = 'Start';
+              } else {
+                fadeIn(welcomeAndroid);
+                mp_data["Promotion CTA"] = 'Get Started Copy';
+              }
+              mixpanel.track("Promotion Detail", mp_data);
+            }
+          );
+          mp_data["Promotion Screen"] = 'How Does It Work'
+        }
+      }
+    };
+    xhr.open('GET', link + loyaltyID, true);
+    xhr.send();
+  }
+
+  function checkProgressDemo() {
+    var mp_data = {
+      "Promotion ID": "Buy 7, Get 11",
+      "Promotion Period": "P3"
+    };
+    if (sessionStorage.slurpeeAmount >= 7) {
+      fadeOut(banner);
+      fadeOut(welcome);
+      fadeOut(progress);
+      fadeOut(spinner,
+        function() {
+          fadeIn(redeem);
+          console.info("Promotion Detail", mp_data);
+        }
+      );
+      mp_data["Promotion Screen"] = '11 Free Slurpees Unlocked';
+      mp_data["Promotion CTA"] = 'Redeem';
+    } else if (sessionStorage.slurpeeAmount > 0 && sessionStorage.slurpeeAmount < 7) {
+      var ul = document.getElementById('se-buy7-progress');
+      for (count = 0; count < sessionStorage.slurpeeAmount; count++) {
+        if (ul.children[count].classList.contains('sprite-slurpee-on')) {
+          // console.log('already has class on li');
+        } else {
+          ul.children[count].className += 'sprite-slurpee-on';
+          // console.log('added class to li');
+        }
+      }
+      mp_data["Promotion Screen"] = 'Track Your Progress';
+      console.info("Promotion Detail", mp_data);
+    } else {
+      fadeOut(spinner,
+        function() {
+          fadeIn(welcome);
+          mp_data["Promotion CTA"] = 'Start';
+          console.info("Promotion Detail", mp_data);
+        }
+      );
+      mp_data["Promotion Screen"] = 'How Does It Work';
+    }
+  }
+
+  function addSlurpee() {
+    sessionStorage.slurpeeAmount++;
+    console.log(sessionStorage.slurpeeAmount);
+    checkProgressDemo();
+  }
+
+  function redeemSlurpee() {
+    // window.location.href = "removed for privacy/demo";
+    var ul = document.getElementById('se-buy7-progress');
+    for (count = 0; count < 7; count++) {
+      ul.children[count].classList.remove('sprite-slurpee-on');
+    }
+    sessionStorage.slurpeeAmount = 0;
+    fadeOut(redeem);
+    fadeOut(progress);
+    fadeIn(banner);
+    checkProgressDemo();
+  }
+
+  function startSlurpee() {
+    // window.location.href = "removed for privacy/demo";
+    sessionStorage.slurpeeAmount++;
+    console.log(sessionStorage.slurpeeAmount);
+    fadeOut(welcome);
+    fadeOut(spinner,
+      function() {
+        fadeIn(progress);
+      }
+    );
+    checkProgressDemo();
+  }
+  window.onload = checkProgressDemo;
+
+  startButton.onclick = startSlurpee;
+  redeemButton.onclick = redeemSlurpee;
+  addButton.onclick = addSlurpee;
+  </script>
+</body>
+
+</html>
